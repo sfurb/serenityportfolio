@@ -1,282 +1,758 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Serenity Furbert — Digital Media Portfolio</title>
+/*
+  ============================================
+  DIGITAL MEDIA PORTFOLIO — style.css
+  (Purple & Yellow Cyber-Gold Glow Aesthetic)
+  ============================================
+*/
+
+:root {
+  /* Color Palette - Cyber & Deep Purple Space Theme with Gold-Yellow Highlights */
+  --bg: #07030c;
+  --bg-card: rgba(22, 11, 38, 0.60);
+  --bg-card-hover: rgba(34, 17, 58, 0.85);
+  --bg-header: rgba(7, 3, 12, 0.75);
   
-  <!-- Premium Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  /* Text Colors */
+  --text: #faf8fc;
+  --text-soft: #e2d9f3;
+  --text-muted: #a69bb5;
   
-  <link rel="stylesheet" href="style.css" />
-  <!-- Required for displaying .glb 3D models -->
-  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-</head>
-<body>
-  <!-- ========== NAVIGATION ========== -->
-  <header class="site-header">
-    <a class="logo" href="#top">Serenity Furbert</a>
-    <nav aria-label="Main">
-      <ul class="nav-links">
-        <li><a href="#works">Works</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </nav>
-  </header>
-  <main id="top">
-    <!-- ========== LANDING / HERO ========== -->
-    <section class="hero" id="home">
-      <p class="hero__label">Digital Media · Spring 2026</p>
-      <h1 class="hero__title">Serenity Furbert</h1>
-      <p class="hero__course">Portfolio — Digital Media Class</p>
-      <p class="hero__intro">
-        I work across image, video, and interactive media. This site collects selected
-        projects from my digital media class — experiments in form, narrative, and technology.
-      </p>
-      <a class="hero__cta" href="#works">View works</a>
-    </section>
-    <!-- ========== WORKS GRID ========== -->
-    <section class="section" id="works">
-      <header class="section__header">
-        <h2>Works</h2>
-        <p>Selected class projects. Click a card to read more.</p>
-      </header>
-      <div class="works-grid">
-        <!-- PROJECT 1 -->
-        <article class="project-card">
-          <button
-            type="button"
-            class="project-card__open"
-            data-title="The Dream Land"
-            data-medium="Large Format Print"
-            data-dimensions="11x15 inches"
-            data-date="February 2026"
-            data-short="I gathered all different types of mail I received and made them into one document. The source material include: coupons, Marlboro advertising, medical prescriptions, and bank letters."
-            data-tools="Scanned the documents, edited in Adobe Illustrator and Adobe Photoshop."
-            data-explore="I was trying to show the background of what it is to study in the United States, and exploring the myth of the American Dream and what it entails."
-          >
-            <div class="project-card__image-container">
-              <img
-                class="project-card__image"
-                src="assets/images/Project-1_DreamLand.jpg"
-                alt="The Dream Land project image"
-                onerror="this.style.display='none'; this.parentNode.classList.add('placeholder-fallback');"
-              />
-              <div class="project-card__image-fallback">The Dream Land</div>
-            </div>
-          </button>
-          <div class="project-card__body">
-            <h3>The Dream Land</h3>
-            <p class="project-card__meta">Large Format Print · 2026</p>
-            <p class="project-card__desc">
-              Collaged different pieces of received mail into one printed document about studying in the United States.
-            </p>
-          </div>
-        </article>
-        <!-- PROJECT 2 — THE GRAVE DIGGER WITH .GLB MODEL -->
-        <article class="project-card">
-          <button
-            type="button"
-            class="project-card__open"
-            data-title="The Grave Digger"
-            data-medium="Initially clay, then sculpted and set in an environment in Blender"
-            data-date="April 2026"
-            data-short="From a conversation between Maldoror – main character eponym of the book – and a Grave Digger in the fifth Chant. Facing the main character, the Grave Digger appeared to have reversed his position. He becomes himself the corpse he digs for, but here he tries to escape his condition of grave digger."
-            data-tools="I first sculpted the gravedigger in clay, then I used AI to generate a base model of my sculpture in 3D, that I then continued sculpting in Blender. I immersed my sculpture in a graveyard environment, and lit the scene accordingly."
-            data-explore="I wanted to see my initial sculpture in an environment that corresponded to the image I had in mind, and to work around the image further by turning it into an animated sequence."
-            data-model="assets/models/Project-2_TheGravedigger.glb"
-            data-poster="assets/images/Project-2_TheGraveDigger.png"
-          >
-            <div class="project-card__image-container">
-              <img
-                class="project-card__image"
-                src="assets/images/Project-2_TheGravedigger.png"
-                alt="The Grave Digger project image"
-                onerror="this.style.display='none'; this.parentNode.classList.add('placeholder-fallback');"
-              />
-              <div class="project-card__image-fallback">The Grave Digger (3D)</div>
-            </div>
-          </button>
-          <div class="project-card__body">
-            <h3>The Grave Digger</h3>
-            <p class="project-card__meta">Clay / 3D · Blender · 2026</p>
-            <p class="project-card__desc">
-              A sculpture turned 3D scene exploring the Grave Digger's reversed position and condition.
-            </p>
-          </div>
-        </article>
-        <!-- PROJECT 3 -->
-        <article class="project-card">
-          <button
-            type="button"
-            class="project-card__open"
-            data-title="Processing Film"
-            data-medium="Video · Adobe Premiere Pro & After Effects"
-            data-date="2026"
-            data-short="Short film edited from old footage"
-            data-tools="I used Premiere Pro and After Effects to edit this short film."
-            data-explore="After coming back from a roadtrip across California, I sat to develop the film. It is always a ritual of remembrance as the memories from the setting reappear slowly while the roll bathes in the tank. But this time, the images were not the ones expected..."
-            data-video="https://www.youtube.com/embed/Nx9yxtE2BN0"
-          >
-            <div class="project-card__image-container">
-              <img
-                class="project-card__image"
-                src="assets/images/P3_thumbnail.png"
-                alt="Processing Film project image"
-                onerror="this.style.display='none'; this.parentNode.classList.add('placeholder-fallback');"
-              />
-              <div class="project-card__image-fallback">Processing Film (Video)</div>
-            </div>
-          </button>
-          <div class="project-card__body">
-            <h3>Processing Film</h3>
-            <p class="project-card__meta">Video · 2026</p>
-            <p class="project-card__desc">
-              Short film edited from old footage exploring memory and roadtrips.
-            </p>
-          </div>
-        </article>
-      </div>
-    </section>
-    <!-- ========== CONTACT ========== -->
-    <section class="section" id="contact">
-      <header class="section__header">
-        <h2>Contact</h2>
-      </header>
-      <ul class="contact-list">
-        <li>
-          <span class="contact-list__label">Email</span>
-          <a href="mailto:serenityfurbert@proton.me">serenityfurbert@proton.me</a>
-        </li>
-        <li>
-          <span class="contact-list__label">GitHub</span>
-          <a href="https://github.com/serenityfurbert" target="_blank" rel="noopener noreferrer">github.com/serenityfurbert</a>
-        </li>
-      </ul>
-    </section>
-  </main>
-  <!-- ========== FOOTER ========== -->
-  <footer class="site-footer">
-    <p>&copy; 2026 Serenity Furbert. Designed with a premium Purple & Yellow aesthetic.</p>
-  </footer>
-  <!-- ========== PROJECT MODAL / LIGHTBOX ========== -->
-  <div class="project-modal" id="project-modal" hidden>
-    <div class="project-modal__overlay" data-close-modal></div>
-    <div class="project-modal__content" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-      <button class="project-modal__close" type="button" data-close-modal aria-label="Close modal">
-        &times;
-      </button>
-      <div id="modal-media"></div>
-      <div class="modal-info">
-        <h2 id="modal-title"></h2>
-        <p id="modal-meta"></p>
-        
-        <div class="modal-divider"></div>
-        
-        <p id="modal-short" class="modal-short-desc"></p>
-        <div class="modal-details-grid">
-          <div class="modal-detail-block">
-            <h3>Process & Tools</h3>
-            <p id="modal-tools"></p>
-          </div>
-          <div class="modal-detail-block">
-            <h3>Exploration</h3>
-            <p id="modal-explore"></p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- ========== MODAL SCRIPT ========== -->
-  <script>
-    const projectButtons = document.querySelectorAll(".project-card__open");
-    const modal = document.querySelector("#project-modal");
-    const modalMedia = document.querySelector("#modal-media");
-    const modalTitle = document.querySelector("#modal-title");
-    const modalMeta = document.querySelector("#modal-meta");
-    const modalShort = document.querySelector("#modal-short");
-    const modalTools = document.querySelector("#modal-tools");
-    const modalExplore = document.querySelector("#modal-explore");
-    const closeModalButtons = document.querySelectorAll("[data-close-modal]");
-    projectButtons.forEach((button) => {
-      button.addEventListener("click", () => {
-        const title = button.dataset.title || "";
-        const medium = button.dataset.medium || "";
-        const date = button.dataset.date || button.dataset.year || "";
-        const dimensions = button.dataset.dimensions || "";
-        const short = button.dataset.short || button.dataset.description || "";
-        const tools = button.dataset.tools || "";
-        const explore = button.dataset.explore || "";
-        const model = button.dataset.model || "";
-        const poster = button.dataset.poster || "";
-        const video = button.dataset.video || "";
-        modalTitle.textContent = title;
-        const metaParts = [medium, dimensions, date].filter(Boolean);
-        modalMeta.textContent = metaParts.join(" · ");
-        modalShort.textContent = short;
-        modalTools.textContent = tools;
-        modalExplore.textContent = explore;
-        modalMedia.innerHTML = "";
-        if (model) {
-          modalMedia.innerHTML = `
-            <model-viewer
-              src="${model}"
-              poster="${poster}"
-              alt="Interactive 3D model of ${title}"
-              camera-controls
-              auto-rotate
-              shadow-intensity="1"
-              exposure="1"
-              style="width: 100%; height: 480px; background: #0c0915; border-radius: 12px;">
-            </model-viewer>
-          `;
-        } else if (video && !video.includes("VIDEO_ID_HERE")) {
-          modalMedia.innerHTML = `
-            <iframe
-              src="${video}"
-              title="${title}"
-              allowfullscreen
-              style="width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: 12px;">
-            </iframe>
-          `;
-        } else {
-          const image = button.querySelector("img");
-          if (image && image.style.display !== 'none') {
-            modalMedia.innerHTML = `
-              <img
-                src="${image.getAttribute("src")}"
-                alt="${image.getAttribute("alt")}"
-                style="width: 100%; border-radius: 12px; display: block;"
-              />
-            `;
-          } else {
-            // Fallback inside modal if image failed to load
-            modalMedia.innerHTML = `
-              <div class="modal-media-fallback">
-                <span>${title}</span>
-              </div>
-            `;
-          }
-        }
-        modal.hidden = false;
-        document.body.style.overflow = "hidden";
-      });
-    });
-    closeModalButtons.forEach((button) => {
-      button.addEventListener("click", closeModal);
-    });
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape" && !modal.hidden) {
-        closeModal();
-      }
-    });
-    function closeModal() {
-      modal.hidden = true;
-      modalMedia.innerHTML = "";
-      document.body.style.overflow = "";
-    }
-  </script>
-</body>
-</html>
+  /* Accents & Highlights */
+  --accent-purple: #c084fc;
+  --accent-yellow: #facc15; /* Vibrant Cyber Gold-Yellow */
+  --accent-gold: #fbbf24;
+  
+  /* Borders and Glows */
+  --border: rgba(250, 204, 21, 0.15); /* Soft yellow border */
+  --border-hover: rgba(250, 204, 21, 0.4);
+  --glow-shadow: 0 0 20px rgba(168, 85, 247, 0.15);
+  --glow-shadow-strong: 0 0 35px rgba(250, 204, 21, 0.25);
+
+  /* Layout */
+  --max-width: 1100px;
+  --space: 1.5rem;
+  --space-lg: 5rem;
+  
+  /* Fonts */
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-heading: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* --- Reset & Base Styles --- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--text);
+  background-color: var(--bg);
+  /* Premium radial glowing backgrounds mixed with doodle art backdrop */
+  background-image: 
+    radial-gradient(ellipse at 50% -10%, rgba(168, 85, 247, 0.25) 0%, transparent 60%),
+    radial-gradient(circle at 10% 40%, rgba(250, 204, 21, 0.08) 0%, transparent 45%),
+    radial-gradient(circle at 90% 70%, rgba(168, 85, 247, 0.1) 0%, transparent 45%),
+    linear-gradient(rgba(7, 3, 12, 0.88), rgba(7, 3, 12, 0.88)),
+    url('background-doodle.jpg');
+  background-size: auto, auto, auto, auto, cover;
+  background-position: center, center, center, center, center;
+  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+  background-attachment: fixed;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: var(--accent-yellow);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+a:hover {
+  color: var(--accent-purple);
+  text-shadow: 0 0 8px rgba(192, 132, 252, 0.4);
+}
+
+/* --- Header / Navigation --- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space);
+  padding: 1.25rem 2rem;
+  background: var(--bg-header);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+}
+
+.logo {
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, var(--accent-yellow), var(--accent-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-decoration: none;
+  transition: filter 0.3s ease;
+}
+
+.logo:hover {
+  filter: brightness(1.2);
+  opacity: 1;
+}
+
+.nav-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 1.75rem;
+}
+
+.nav-links a {
+  color: var(--text-soft);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  position: relative;
+  padding: 0.25rem 0;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent-yellow), var(--accent-purple));
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-links a:hover {
+  color: var(--text);
+  opacity: 1;
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+/* --- Hero / Landing --- */
+.hero {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 7rem 1.5rem 5rem;
+  text-align: center;
+  position: relative;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, transparent 70%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.hero__label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, var(--accent-yellow), var(--accent-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0 0 1.25rem;
+  display: inline-block;
+}
+
+.hero__title {
+  font-family: var(--font-heading);
+  font-size: clamp(3rem, 10vw, 4.75rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin: 0;
+  background: linear-gradient(135deg, #ffffff 30%, #fef08a 70%, var(--accent-purple) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero__course {
+  margin: 1rem 0 0;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--accent-purple);
+  letter-spacing: 0.05em;
+}
+
+.hero__intro {
+  max-width: 36rem;
+  margin: 2rem auto 0;
+  color: var(--text-soft);
+  font-size: 1.1rem;
+  line-height: 1.75;
+}
+
+.hero__cta {
+  display: inline-block;
+  margin-top: 2.75rem;
+  padding: 0.8rem 2.25rem;
+  border-radius: 50px;
+  background: linear-gradient(135deg, rgba(250, 204, 21, 0.15), rgba(168, 85, 247, 0.15));
+  border: 1px solid rgba(250, 204, 21, 0.35);
+  color: var(--text);
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  box-shadow: var(--glow-shadow);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hero__cta:hover {
+  background: linear-gradient(135deg, var(--accent-yellow), var(--accent-purple));
+  border-color: transparent;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(250, 204, 21, 0.4);
+  opacity: 1;
+}
+
+/* --- Sections --- */
+.section {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--space-lg) 2rem;
+  border-top: 1px solid var(--border);
+}
+
+.section__header {
+  margin-bottom: 3rem;
+}
+
+.section__header h2 {
+  font-family: var(--font-heading);
+  font-size: 2.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0;
+  color: var(--text);
+}
+
+.section__header p {
+  margin: 0.5rem 0 0;
+  color: var(--text-muted);
+  font-size: 1rem;
+}
+
+/* --- Works Grid & Project Cards --- */
+.works-grid {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .works-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1000px) {
+  .works-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.project-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.project-card:hover {
+  transform: translateY(-8px);
+  background: var(--bg-card-hover);
+  border-color: var(--border-hover);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 25px rgba(250, 204, 21, 0.15);
+}
+
+/* Button wraps the image container */
+.project-card__open {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Image styling & fallback container */
+.project-card__image-container {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  position: relative;
+  background: #120e22;
+  overflow: hidden;
+}
+
+.project-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.project-card:hover .project-card__image {
+  transform: scale(1.06);
+}
+
+/* Fallback classes when images fail to load */
+.project-card__image-fallback {
+  position: absolute;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, rgba(250, 204, 21, 0.1), rgba(168, 85, 247, 0.15));
+  border-bottom: 1px solid var(--border);
+  color: var(--text-soft);
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.placeholder-fallback .project-card__image-fallback {
+  display: flex;
+}
+
+.project-card__body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.project-card__body h3 {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text);
+  transition: color 0.3s ease;
+}
+
+.project-card:hover .project-card__body h3 {
+  color: var(--accent-purple);
+}
+
+.project-card__meta {
+  margin: 0.4rem 0 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-yellow);
+}
+
+.project-card__desc {
+  margin: 0.9rem 0 0;
+  font-size: 0.95rem;
+  color: var(--text-soft);
+  line-height: 1.6;
+  flex-grow: 1;
+}
+
+/* --- Contact Section --- */
+.contact-list {
+  list-style: none;
+  margin: 2rem 0 0;
+  padding: 0;
+}
+
+.contact-list li {
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.contact-list__label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.contact-list a {
+  color: var(--text);
+  font-size: 1.15rem;
+  font-weight: 500;
+  display: inline-block;
+  align-self: start;
+}
+
+/* --- Footer --- */
+.site-footer {
+  text-align: center;
+  padding: 3rem 2rem 4rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+  background: rgba(7, 3, 12, 0.5);
+}
+
+.site-footer p {
+  margin: 0;
+}
+
+/* --- Project Modal / Lightbox Dialog --- */
+.project-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.project-modal[hidden] {
+  display: none;
+}
+
+.project-modal__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(4, 2, 8, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  cursor: pointer;
+}
+
+.project-modal__content {
+  position: relative;
+  z-index: 1;
+  width: min(850px, 100%);
+  max-height: calc(100vh - 3rem);
+  overflow-y: auto;
+  background: #0d0a1b;
+  color: var(--text);
+  border: 1px solid rgba(250, 204, 21, 0.3);
+  border-radius: 24px;
+  padding: 2.5rem;
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.8),
+    0 0 50px rgba(168, 85, 247, 0.12);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(168, 85, 247, 0.3) transparent;
+}
+
+/* Custom Scrollbar for Modal content */
+.project-modal__content::-webkit-scrollbar {
+  width: 8px;
+}
+.project-modal__content::-webkit-scrollbar-track {
+  background: transparent;
+}
+.project-modal__content::-webkit-scrollbar-thumb {
+  background: rgba(168, 85, 247, 0.3);
+  border-radius: 4px;
+}
+.project-modal__content::-webkit-scrollbar-thumb:hover {
+  background: rgba(168, 85, 247, 0.5);
+}
+
+.project-modal__close {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text);
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+  line-height: 1;
+}
+
+.project-modal__close:hover {
+  background: rgba(250, 204, 21, 0.2);
+  border-color: rgba(250, 204, 21, 0.4);
+  transform: rotate(90deg);
+}
+
+#modal-media {
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Interactive elements inside modal */
+model-viewer {
+  display: block;
+  width: 100%;
+  height: 480px;
+  background: #09070f;
+}
+
+iframe {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: none;
+}
+
+/* Fallback when rendering failed media inside modal */
+.modal-media-fallback {
+  width: 100%;
+  height: 350px;
+  background: linear-gradient(135deg, rgba(250, 204, 21, 0.08), rgba(168, 85, 247, 0.12));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-soft);
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* Modal text and structural details */
+.modal-info {
+  margin-top: 1.5rem;
+}
+
+.modal-info h2 {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0;
+  color: var(--text);
+}
+
+#modal-meta {
+  margin: 0.5rem 0 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent-yellow);
+}
+
+.modal-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 1.5rem 0;
+}
+
+.modal-short-desc {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: var(--text-soft);
+  margin: 0 0 2rem;
+}
+
+.modal-details-grid {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 700px) {
+  .modal-details-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.modal-detail-block h3 {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 0.75rem;
+  color: var(--accent-purple);
+  letter-spacing: 0.02em;
+}
+
+.modal-detail-block p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-soft);
+}
+
+/* --- Accessibility & Reduced Motion --- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .project-card,
+  .hero__cta,
+  .logo,
+  .nav-links a::after,
+  .project-modal__close {
+    transition: none;
+    transform: none !important;
+  }
+  .project-card:hover .project-card__image {
+    transform: none;
+  }
+}
+
+/* --- Mobile Optimizations (Responsive tweaks) --- */
+@media (max-width: 768px) {
+  .site-header {
+    padding: 1.25rem 1.5rem;
+  }
+  
+  .project-modal__content {
+    padding: 2rem 1.5rem;
+    border-radius: 20px;
+    max-height: calc(100vh - 2rem);
+  }
+
+  model-viewer {
+    height: 380px;
+  }
+  
+  .modal-media-fallback {
+    height: 280px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Header adjustments */
+  .site-header {
+    flex-direction: column;
+    padding: 1rem;
+    gap: 0.75rem;
+    text-align: center;
+  }
+  
+  .nav-links {
+    gap: 1.25rem;
+  }
+  
+  .nav-links a {
+    font-size: 0.8rem;
+    padding: 0.25rem;
+  }
+
+  /* Hero section tweaks */
+  .hero {
+    padding: 5rem 1rem 3rem;
+  }
+  
+  .hero__title {
+    font-size: 2.5rem;
+  }
+  
+  .hero__intro {
+    font-size: 1rem;
+    margin-top: 1.5rem;
+  }
+  
+  /* Section spacing */
+  .section {
+    padding: 3rem 1.25rem;
+  }
+  
+  .section__header {
+    margin-bottom: 2rem;
+  }
+  
+  /* Modal changes for screens */
+  .project-modal {
+    padding: 0.75rem;
+  }
+
+  .project-modal__content {
+    padding: 1.5rem 1.25rem;
+    border-radius: 16px;
+    width: 100%;
+    max-height: calc(100vh - 1.5rem);
+  }
+  
+  .project-modal__close {
+    top: 0.75rem;
+    right: 0.75rem;
+    width: 36px;
+    height: 36px;
+    font-size: 1.3rem;
+  }
+  
+  model-viewer {
+    height: 280px;
+  }
+  
+  .modal-media-fallback {
+    height: 200px;
+  }
+
+  .modal-info h2 {
+    font-size: 1.6rem;
+  }
+  
+  .modal-short-desc {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Contact list items */
+  .contact-list a {
+    font-size: 1.05rem;
+  }
+}
