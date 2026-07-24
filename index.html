@@ -24,6 +24,7 @@
     <nav aria-label="Main">
       <ul class="nav-links">
         <li><a href="#works">Works</a></li>
+        <li><a href="#game">Play Game</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>
@@ -39,7 +40,7 @@
         I work across image, video, and interactive media. This site collects selected
         projects from my digital media class — experiments in form, narrative, and technology.
       </p>
-      <a class="hero__cta" href="#works">My Stuff!</a>
+      <a class="hero__cta" href="#works">View works</a>
     </section>
 
     <!-- ========== WORKS GRID ========== -->
@@ -55,10 +56,10 @@
           <button
             type="button"
             class="project-card__open"
-            data-title="X-ACTO School: OBEY"
+            data-title="The Dream Land"
             data-medium="Large Format Print"
-            data-dimensions="18x24 inches"
-            data-date="July 2026"
+            data-dimensions="11x15 inches"
+            data-date="February 2026"
             data-short="I gathered all different types of mail I received and made them into one document. The source material include: coupons, Marlboro advertising, medical prescriptions, and bank letters."
             data-tools="Scanned the documents, edited in Adobe Illustrator and Adobe Photoshop."
             data-explore="I was trying to show the background of what it is to study in the United States, and exploring the myth of the American Dream and what it entails."
@@ -66,19 +67,19 @@
             <div class="project-card__image-container">
               <img
                 class="project-card__image"
-                src="uncannyvalley.jpeg"
+                src="assets/images/Project-1_DreamLand.jpg"
                 alt="The Dream Land project image"
                 onerror="this.style.display='none'; this.parentNode.classList.add('placeholder-fallback');"
               />
-              <div class="project-card__image-fallback">X-ACTO School: OBEY</div>
+              <div class="project-card__image-fallback">The Dream Land</div>
             </div>
           </button>
 
           <div class="project-card__body">
-            <h3>X-ACTO School: OBEY</h3>
+            <h3>The Dream Land</h3>
             <p class="project-card__meta">Large Format Print · 2026</p>
             <p class="project-card__desc">
-              Line 81 EDIT THIS
+              Collaged different pieces of received mail into one printed document about studying in the United States.
             </p>
           </div>
         </article>
@@ -151,6 +152,117 @@
         </article>
       </div>
     </section>
+
+    <!-- ========== TIC TAC TOE GAME SECTION ========== -->
+    <section class="ttt-section" id="game">
+      <div class="ttt-card">
+        <h2 class="ttt-title">Tic Tac Toe</h2>
+        <p class="ttt-subtitle">A mini interactive break. Play against a friend (pass-and-play)!</p>
+        
+        <div class="ttt-status" id="ttt-status">Player <span>X</span>'s turn</div>
+        
+        <div class="ttt-grid" id="ttt-grid">
+          <button class="ttt-cell" data-index="0" aria-label="Cell 1"></button>
+          <button class="ttt-cell" data-index="1" aria-label="Cell 2"></button>
+          <button class="ttt-cell" data-index="2" aria-label="Cell 3"></button>
+          <button class="ttt-cell" data-index="3" aria-label="Cell 4"></button>
+          <button class="ttt-cell" data-index="4" aria-label="Cell 5"></button>
+          <button class="ttt-cell" data-index="5" aria-label="Cell 6"></button>
+          <button class="ttt-cell" data-index="6" aria-label="Cell 7"></button>
+          <button class="ttt-cell" data-index="7" aria-label="Cell 8"></button>
+          <button class="ttt-cell" data-index="8" aria-label="Cell 9"></button>
+        </div>
+
+        <button class="ttt-reset-btn" id="ttt-reset">Reset Game</button>
+      </div>
+    </section>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const cells = document.querySelectorAll(".ttt-cell");
+        const statusText = document.getElementById("ttt-status");
+        const resetButton = document.getElementById("ttt-reset");
+        
+        let board = ["", "", "", "", "", "", "", "", ""];
+        let currentPlayer = "X";
+        let gameActive = true;
+
+        const winningConditions = [
+          [0, 1, 2],
+          [3, 4, 5],
+          [6, 7, 8],
+          [0, 3, 6],
+          [1, 4, 7],
+          [2, 5, 8],
+          [0, 4, 8],
+          [2, 4, 6]
+        ];
+
+        function handleCellClick(clickedCellEvent) {
+          const clickedCell = clickedCellEvent.target;
+          const clickedCellIndex = parseInt(clickedCell.getAttribute("data-index"));
+
+          if (board[clickedCellIndex] !== "" || !gameActive) {
+            return;
+          }
+
+          board[clickedCellIndex] = currentPlayer;
+          clickedCell.textContent = currentPlayer;
+          clickedCell.setAttribute("data-val", currentPlayer);
+          clickedCell.classList.add("occupied");
+
+          checkResult();
+        }
+
+        function checkResult() {
+          let roundWon = false;
+          for (let i = 0; i < winningConditions.length; i++) {
+            const winCondition = winningConditions[i];
+            let a = board[winCondition[0]];
+            let b = board[winCondition[1]];
+            let c = board[winCondition[2]];
+            if (a === "" || b === "" || c === "") {
+              continue;
+            }
+            if (a === b && b === c) {
+              roundWon = true;
+              break;
+            }
+          }
+
+          if (roundWon) {
+            statusText.innerHTML = `Player <span>${currentPlayer}</span> Wins! 🎉`;
+            gameActive = false;
+            return;
+          }
+
+          let roundDraw = !board.includes("");
+          if (roundDraw) {
+            statusText.innerHTML = `It's a draw! 🤝`;
+            gameActive = false;
+            return;
+          }
+
+          currentPlayer = currentPlayer === "X" ? "O" : "X";
+          statusText.innerHTML = `Player <span>${currentPlayer}</span>'s turn`;
+        }
+
+        function handleResetGame() {
+          board = ["", "", "", "", "", "", "", "", ""];
+          currentPlayer = "X";
+          gameActive = true;
+          statusText.innerHTML = `Player <span>X</span>'s turn`;
+          cells.forEach(cell => {
+            cell.textContent = "";
+            cell.removeAttribute("data-val");
+            cell.classList.remove("occupied");
+          });
+        }
+
+        cells.forEach(cell => cell.addEventListener("click", handleCellClick));
+        resetButton.addEventListener("click", handleResetGame);
+      });
+    </script>
 
     <!-- ========== CONTACT ========== -->
     <section class="section" id="contact">
