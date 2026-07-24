@@ -153,114 +153,302 @@
       </div>
     </section>
 
-    <!-- ========== TIC TAC TOE GAME SECTION ========== -->
-    <section class="ttt-section" id="game">
-      <div class="ttt-card">
-        <h2 class="ttt-title">Tic Tac Toe</h2>
-        <p class="ttt-subtitle">A mini interactive break. Play against a friend (pass-and-play)!</p>
-        
-        <div class="ttt-status" id="ttt-status">Player <span>X</span>'s turn</div>
-        
-        <div class="ttt-grid" id="ttt-grid">
-          <button class="ttt-cell" data-index="0" aria-label="Cell 1"></button>
-          <button class="ttt-cell" data-index="1" aria-label="Cell 2"></button>
-          <button class="ttt-cell" data-index="2" aria-label="Cell 3"></button>
-          <button class="ttt-cell" data-index="3" aria-label="Cell 4"></button>
-          <button class="ttt-cell" data-index="4" aria-label="Cell 5"></button>
-          <button class="ttt-cell" data-index="5" aria-label="Cell 6"></button>
-          <button class="ttt-cell" data-index="6" aria-label="Cell 7"></button>
-          <button class="ttt-cell" data-index="7" aria-label="Cell 8"></button>
-          <button class="ttt-cell" data-index="8" aria-label="Cell 9"></button>
+    <!-- ========== SNAKE GAME SECTION ========== -->
+    <section class="snake-section" id="game">
+      <div class="snake-card">
+        <!-- Image Container (where canvas will sit) -->
+        <div class="snake-canvas-container">
+          <canvas id="snake-canvas"></canvas>
         </div>
+        
+        <!-- Project-card style Body -->
+        <div class="snake-body">
+          <h3>Snake Game</h3>
+          <p class="snake-meta">Interactive Experiment · JS Canvas · 2026</p>
+          
+          <div class="snake-stats">
+            <div>Score: <span id="snake-score">0</span></div>
+            <div>High Score: <span id="snake-highscore">0</span></div>
+          </div>
+          
+          <div class="snake-status" id="snake-status">Press Start Game or use Arrow keys to play.</div>
 
-        <button class="ttt-reset-btn" id="ttt-reset">Reset Game</button>
+          <div class="snake-controls">
+            <button class="snake-btn" id="snake-start-btn">Start Game</button>
+            <button class="snake-btn" id="snake-pause-btn">Pause</button>
+          </div>
+
+          <!-- Digital D-Pad for Touch/Mobile Users -->
+          <div class="snake-dpad">
+            <button class="dpad-btn dpad-up" id="dpad-up" aria-label="Up">▲</button>
+            <button class="dpad-btn dpad-left" id="dpad-left" aria-label="Left">◀</button>
+            <button class="dpad-btn dpad-right" id="dpad-right" aria-label="Right">▶</button>
+            <button class="dpad-btn dpad-down" id="dpad-down" aria-label="Down">▼</button>
+          </div>
+        </div>
       </div>
     </section>
 
     <script>
       document.addEventListener("DOMContentLoaded", () => {
-        const cells = document.querySelectorAll(".ttt-cell");
-        const statusText = document.getElementById("ttt-status");
-        const resetButton = document.getElementById("ttt-reset");
-        
-        let board = ["", "", "", "", "", "", "", "", ""];
-        let currentPlayer = "X";
-        let gameActive = true;
+        const canvas = document.getElementById("snake-canvas");
+        const ctx = canvas.getContext("2d");
 
-        const winningConditions = [
-          [0, 1, 2],
-          [3, 4, 5],
-          [6, 7, 8],
-          [0, 3, 6],
-          [1, 4, 7],
-          [2, 5, 8],
-          [0, 4, 8],
-          [2, 4, 6]
-        ];
+        // Set internal resolution matching the 4:3 CSS aspect ratio
+        canvas.width = 400;
+        canvas.height = 300;
 
-        function handleCellClick(clickedCellEvent) {
-          const clickedCell = clickedCellEvent.target;
-          const clickedCellIndex = parseInt(clickedCell.getAttribute("data-index"));
+        const gridSize = 20;
+        const tileCountX = canvas.width / gridSize; // 20
+        const tileCountY = canvas.height / gridSize; // 15
 
-          if (board[clickedCellIndex] !== "" || !gameActive) {
-            return;
-          }
+        let snake = [{x: 10, y: 7}, {x: 9, y: 7}, {x: 8, y: 7}];
+        let dx = 1;
+        let dy = 0;
+        let food = {x: 15, y: 7};
+        let score = 0;
+        let highScore = localStorage.getItem("snakeHighScore") || 0;
+        let gameInterval = null;
+        let isPaused = false;
+        let isStarted = false;
 
-          board[clickedCellIndex] = currentPlayer;
-          clickedCell.textContent = currentPlayer;
-          clickedCell.setAttribute("data-val", currentPlayer);
-          clickedCell.classList.add("occupied");
+        const startBtn = document.getElementById("snake-start-btn");
+        const pauseBtn = document.getElementById("snake-pause-btn");
+        const statusLabel = document.getElementById("snake-status");
 
-          checkResult();
+        // Set high score label initially
+        document.getElementById("snake-highscore").textContent = highScore;
+
+        function startGame() {
+          if (gameInterval) clearInterval(gameInterval);
+          isStarted = true;
+          isPaused = false;
+          statusLabel.textContent = "Game running... Go get that food!";
+          startBtn.textContent = "Restart";
+          pauseBtn.textContent = "Pause";
+          gameInterval = setInterval(gameLoop, 120);
         }
 
-        function checkResult() {
-          let roundWon = false;
-          for (let i = 0; i < winningConditions.length; i++) {
-            const winCondition = winningConditions[i];
-            let a = board[winCondition[0]];
-            let b = board[winCondition[1]];
-            let c = board[winCondition[2]];
-            if (a === "" || b === "" || c === "") {
-              continue;
-            }
-            if (a === b && b === c) {
-              roundWon = true;
-              break;
-            }
+        function togglePause() {
+          if (!isStarted) return;
+          if (isPaused) {
+            gameInterval = setInterval(gameLoop, 120);
+            isPaused = false;
+            statusLabel.textContent = "Game resumed!";
+            pauseBtn.textContent = "Pause";
+          } else {
+            clearInterval(gameInterval);
+            isPaused = true;
+            statusLabel.textContent = "Game paused. Press Resume.";
+            pauseBtn.textContent = "Resume";
           }
-
-          if (roundWon) {
-            statusText.innerHTML = `Player <span>${currentPlayer}</span> Wins! 🎉`;
-            gameActive = false;
-            return;
-          }
-
-          let roundDraw = !board.includes("");
-          if (roundDraw) {
-            statusText.innerHTML = `It's a draw! 🤝`;
-            gameActive = false;
-            return;
-          }
-
-          currentPlayer = currentPlayer === "X" ? "O" : "X";
-          statusText.innerHTML = `Player <span>${currentPlayer}</span>'s turn`;
         }
 
-        function handleResetGame() {
-          board = ["", "", "", "", "", "", "", "", ""];
-          currentPlayer = "X";
-          gameActive = true;
-          statusText.innerHTML = `Player <span>X</span>'s turn`;
-          cells.forEach(cell => {
-            cell.textContent = "";
-            cell.removeAttribute("data-val");
-            cell.classList.remove("occupied");
+        function resetGame() {
+          snake = [{x: 10, y: 7}, {x: 9, y: 7}, {x: 8, y: 7}];
+          dx = 1;
+          dy = 0;
+          score = 0;
+          document.getElementById("snake-score").textContent = score;
+          spawnFood();
+          drawGame();
+        }
+
+        function gameLoop() {
+          moveSnake();
+          drawGame();
+        }
+
+        function moveSnake() {
+          const head = { x: snake[0].x + dx, y: snake[0].y + dy };
+
+          // boundary or self collision check
+          if (head.x < 0 || head.x >= tileCountX || head.y < 0 || head.y >= tileCountY || checkSelfCollision(head)) {
+            gameOver();
+            return;
+          }
+
+          snake.unshift(head);
+
+          // Eat food
+          if (head.x === food.x && head.y === food.y) {
+            score += 10;
+            document.getElementById("snake-score").textContent = score;
+            if (score > highScore) {
+              highScore = score;
+              document.getElementById("snake-highscore").textContent = highScore;
+              localStorage.setItem("snakeHighScore", highScore);
+            }
+            spawnFood();
+          } else {
+            snake.pop();
+          }
+        }
+
+        function checkSelfCollision(head) {
+          return snake.some((part, index) => {
+            if (index === 0) return false;
+            return part.x === head.x && part.y === head.y;
           });
         }
 
-        cells.forEach(cell => cell.addEventListener("click", handleCellClick));
-        resetButton.addEventListener("click", handleResetGame);
+        function spawnFood() {
+          let newFoodPos;
+          while (true) {
+            newFoodPos = {
+              x: Math.floor(Math.random() * tileCountX),
+              y: Math.floor(Math.random() * tileCountY)
+            };
+            const onSnake = snake.some(part => part.x === newFoodPos.x && part.y === newFoodPos.y);
+            if (!onSnake) break;
+          }
+          food = newFoodPos;
+        }
+
+        function drawGame() {
+          // Clear background
+          ctx.fillStyle = "#090612";
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+          // Faint Cyberpunk Grid
+          ctx.strokeStyle = "rgba(6, 182, 212, 0.04)";
+          ctx.lineWidth = 1;
+          for (let i = 0; i <= tileCountX; i++) {
+            ctx.beginPath();
+            ctx.moveTo(i * gridSize, 0);
+            ctx.lineTo(i * gridSize, canvas.height);
+            ctx.stroke();
+          }
+          for (let i = 0; i <= tileCountY; i++) {
+            ctx.beginPath();
+            ctx.moveTo(0, i * gridSize);
+            ctx.lineTo(canvas.width, i * gridSize);
+            ctx.stroke();
+          }
+
+          // Draw neon food (Yellow/Gold)
+          ctx.shadowBlur = 8;
+          ctx.shadowColor = "#facc15";
+          ctx.fillStyle = "#facc15";
+          ctx.beginPath();
+          ctx.arc(food.x * gridSize + gridSize/2, food.y * gridSize + gridSize/2, gridSize/2 - 2, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Draw Snake (Cyan)
+          ctx.shadowBlur = 10;
+          ctx.shadowColor = "#06b6d4";
+          snake.forEach((part, index) => {
+            if (index === 0) {
+              ctx.fillStyle = "#22d3ee"; // Head (lighter neon blue)
+            } else {
+              ctx.fillStyle = "#06b6d4"; // Body (cyan)
+            }
+
+            // Draw rounded cell blocks
+            const x = part.x * gridSize + 1;
+            const y = part.y * gridSize + 1;
+            const w = gridSize - 2;
+            const h = gridSize - 2;
+            const r = 4; // corner radius
+
+            ctx.beginPath();
+            ctx.moveTo(x + r, y);
+            ctx.lineTo(x + w - r, y);
+            ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+            ctx.lineTo(x + w, y + h - r);
+            ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+            ctx.lineTo(x + r, y + h);
+            ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+            ctx.lineTo(x, y + r);
+            ctx.quadraticCurveTo(x, y, x + r, y);
+            ctx.closePath();
+            ctx.fill();
+          });
+
+          // Reset glow shadows
+          ctx.shadowBlur = 0;
+        }
+
+        function gameOver() {
+          clearInterval(gameInterval);
+          isStarted = false;
+          statusLabel.innerHTML = `Game Over! Final Score: <span style="color: var(--accent-yellow); font-weight:700;">${score}</span>. Press Start Game to retry.`;
+          startBtn.textContent = "Start Game";
+          drawGameOverScreen();
+        }
+
+        function drawGameOverScreen() {
+          ctx.fillStyle = "rgba(12, 9, 21, 0.85)";
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+          ctx.font = "bold 24px 'Plus Jakarta Sans', sans-serif";
+          ctx.fillStyle = "#ef4444";
+          ctx.textAlign = "center";
+          ctx.fillText("GAME OVER", canvas.width / 2, canvas.height / 2 - 10);
+
+          ctx.font = "14px 'Inter', sans-serif";
+          ctx.fillStyle = "#faf8fc";
+          ctx.fillText(`Final Score: ${score}`, canvas.width / 2, canvas.height / 2 + 20);
+        }
+
+        function changeDirection(newDx, newDy) {
+          if (newDx !== 0 && dx === -newDx) return;
+          if (newDy !== 0 && dy === -newDy) return;
+
+          dx = newDx;
+          dy = newDy;
+
+          // Auto-start on movement
+          if (!isStarted) {
+            startGame();
+          }
+        }
+
+        // Control triggers
+        window.addEventListener("keydown", (e) => {
+          if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", " "].includes(e.key) && isStarted && !isPaused) {
+            e.preventDefault(); // stop browser scroll
+          }
+
+          switch (e.key) {
+            case "ArrowUp":
+            case "w":
+            case "W":
+              changeDirection(0, -1);
+              break;
+            case "ArrowDown":
+            case "s":
+            case "S":
+              changeDirection(0, 1);
+              break;
+            case "ArrowLeft":
+            case "a":
+            case "A":
+              changeDirection(-1, 0);
+              break;
+            case "ArrowRight":
+            case "d":
+            case "D":
+              changeDirection(1, 0);
+              break;
+          }
+        });
+
+        // Controller bindings
+        startBtn.addEventListener("click", () => {
+          resetGame();
+          startGame();
+        });
+        pauseBtn.addEventListener("click", togglePause);
+
+        // Mobile D-Pad listeners
+        document.getElementById("dpad-up").addEventListener("click", () => changeDirection(0, -1));
+        document.getElementById("dpad-down").addEventListener("click", () => changeDirection(0, 1));
+        document.getElementById("dpad-left").addEventListener("click", () => changeDirection(-1, 0));
+        document.getElementById("dpad-right").addEventListener("click", () => changeDirection(1, 0));
+
+        // Draw game initially in stagnant start state
+        drawGame();
       });
     </script>
 
