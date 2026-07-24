@@ -766,8 +766,8 @@ iframe {
   }
 }
 
-/* --- Tic Tac Toe Section (Blue Card) --- */
-.ttt-section {
+/* --- Snake Section (Blue Project-Card Game) --- */
+.snake-section {
   text-align: center;
   max-width: var(--max-width);
   margin: 0 auto;
@@ -778,121 +778,157 @@ iframe {
   align-items: center;
 }
 
-.ttt-card {
+.snake-card {
   background: var(--bg-card-blue);
   border: 1px solid var(--border-blue);
-  border-radius: 24px;
-  padding: 2.5rem;
-  width: min(450px, 100%);
-  box-shadow: var(--glow-shadow-blue);
+  border-radius: 20px;
+  overflow: hidden;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   flex-direction: column;
-  align-items: center;
+  width: min(460px, 100%);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--glow-shadow-blue);
+  text-align: left;
 }
 
-.ttt-card:hover {
+.snake-card:hover {
+  transform: translateY(-8px);
   background: var(--bg-card-blue-hover);
   border-color: var(--border-blue-hover);
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), var(--glow-shadow-blue-strong);
 }
 
-.ttt-title {
+.snake-canvas-container {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  position: relative;
+  background: #090612;
+  border-bottom: 1px solid var(--border-blue);
+  overflow: hidden;
+}
+
+#snake-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.snake-body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.snake-body h3 {
+  margin: 0;
   font-family: var(--font-heading);
-  font-size: 1.75rem;
-  font-weight: 700;
-  margin: 0 0 0.5rem;
-  background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.ttt-subtitle {
-  color: var(--text-soft);
-  font-size: 0.9rem;
-  margin: 0 0 1.5rem;
-}
-
-.ttt-status {
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   font-weight: 600;
-  margin-bottom: 1.5rem;
   color: var(--text);
-  min-height: 1.8rem;
+  transition: color 0.3s ease;
 }
 
-.ttt-status span {
+.snake-card:hover .snake-body h3 {
   color: var(--accent-blue);
 }
 
-.ttt-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  width: 100%;
-  max-width: 300px;
-  aspect-ratio: 1 / 1;
-  margin-bottom: 1.5rem;
+.snake-meta {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-blue);
 }
 
-.ttt-cell {
-  background: rgba(7, 3, 12, 0.4);
+.snake-stats {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1rem;
+  color: var(--text-soft);
+  font-weight: 500;
+  border-bottom: 1px solid rgba(6, 182, 212, 0.1);
+  padding-bottom: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.snake-status {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  min-height: 1.5rem;
+}
+
+/* Button & Controller layout */
+.snake-controls {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.snake-btn {
+  flex: 1;
+  padding: 0.55rem 1rem;
+  border-radius: 50px;
+  background: rgba(6, 182, 212, 0.1);
   border: 1px solid var(--border-blue);
-  border-radius: 12px;
-  font-family: var(--font-heading);
-  font-size: 2.2rem;
-  font-weight: 700;
   color: var(--text);
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.snake-btn:hover {
+  background: var(--accent-blue);
+  color: #07030c;
+  border-color: transparent;
+  box-shadow: 0 0 12px rgba(6, 182, 212, 0.4);
+}
+
+/* Digital D-Pad for Mobile Touch Controls */
+.snake-dpad {
+  display: grid;
+  grid-template-areas: 
+    ". up ."
+    "left . right"
+    ". down .";
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 6px;
+  width: 140px;
+  height: 140px;
+  margin: 0.5rem auto 0;
+}
+
+.dpad-btn {
+  background: rgba(6, 182, 212, 0.06);
+  border: 1px solid var(--border-blue);
+  border-radius: 8px;
+  color: var(--accent-blue);
+  font-size: 1.25rem;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s ease;
-  user-select: none;
-  aspect-ratio: 1 / 1;
   padding: 0;
+  user-select: none;
 }
 
-.ttt-cell:hover:not(.occupied) {
-  background: rgba(6, 182, 212, 0.1);
+.dpad-btn:active, .dpad-btn:hover {
+  background: rgba(6, 182, 212, 0.2);
   border-color: var(--accent-blue);
-  box-shadow: 0 0 10px rgba(6, 182, 212, 0.3);
-}
-
-.ttt-cell.occupied {
-  cursor: not-allowed;
-}
-
-.ttt-cell[data-val="X"] {
-  color: var(--accent-blue);
-  text-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
-}
-
-.ttt-cell[data-val="O"] {
-  color: var(--accent-yellow);
-  text-shadow: 0 0 10px rgba(250, 204, 21, 0.5);
-}
-
-.ttt-reset-btn {
-  padding: 0.6rem 1.75rem;
-  border-radius: 50px;
-  background: linear-gradient(135deg, rgba(6, 182, 212, 0.15), rgba(168, 85, 247, 0.15));
-  border: 1px solid var(--border-blue);
   color: var(--text);
-  font-weight: 600;
-  font-size: 0.85rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: var(--glow-shadow-blue);
+  box-shadow: 0 0 8px rgba(6, 182, 212, 0.3);
 }
 
-.ttt-reset-btn:hover {
-  background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
-  border-color: transparent;
-  transform: translateY(-1px);
-  box-shadow: 0 5px 15px rgba(6, 182, 212, 0.4);
-}
+.dpad-up { grid-area: up; }
+.dpad-left { grid-area: left; }
+.dpad-right { grid-area: right; }
+.dpad-down { grid-area: down; }
